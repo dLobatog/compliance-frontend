@@ -6,7 +6,6 @@ import { onNavigate } from '../../Utilities/Breadcrumbs';
 import SetThresholdDropdown from '../SetThresholdDropdown/SetThresholdDropdown';
 import { QuestionCircleIcon } from '@patternfly/react-icons';
 import {
-    Breadcrumbs,
     PageHeader,
     PageHeaderTitle,
     Main,
@@ -20,6 +19,9 @@ import {
     ChartTheme
 } from '@patternfly/react-charts';
 import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbHeading,
     Text,
     TextContent,
     Tooltip,
@@ -142,12 +144,10 @@ const PolicyDetailsQuery = ({ policyId, onNavigateWithProps }) => (
             return (
                 <React.Fragment>
                     <PageHeader>
-                        <Breadcrumbs
-                            style={{ padding: '0px' }}
-                            items={[{ title: 'Policies', navigate: '/policies' }]}
-                            current={policy.name}
-                            onNavigate={onNavigateWithProps}
-                        />
+                        <Breadcrumb>
+                            <BreadcrumbItem onClick={onNavigateWithProps} target='/policies'>Policies</BreadcrumbItem>
+                            <BreadcrumbHeading to="#">{policy.name}</BreadcrumbHeading>
+                        </Breadcrumb>
                         <PageHeaderTitle title={policy.name} />
                         <Grid gutter='md'>
                             <GridItem span={4}>

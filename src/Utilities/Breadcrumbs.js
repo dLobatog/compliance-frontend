@@ -1,3 +1,3 @@
 export function onNavigate(event, item) {
-    this.props.history.push(item);
+    this.props.history.push(item.target);
 }
