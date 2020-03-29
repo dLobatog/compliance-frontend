@@ -6,24 +6,34 @@ exports[`ReportCard expect to render without error 1`] = `
 >
   <CardHeader>
     <TextContent>
-      <Text
-        component="h2"
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        style={
-          Object {
-            "fontWeight": "500",
-          }
-        }
-      >
-        <Truncate
-          ellipsis="…"
-          lines={1}
-          trimWhitespace={false}
-          width={0}
+      <Grid>
+        <GridItem
+          span={11}
         >
-          Test Policy
-           
+          <Text
+            component="h2"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            style={
+              Object {
+                "fontWeight": "500",
+              }
+            }
+          >
+            <Truncate
+              ellipsis="…"
+              lines={1}
+              trimWhitespace={false}
+              width={0}
+            >
+              Test Policy
+               
+            </Truncate>
+          </Text>
+        </GridItem>
+        <GridItem
+          span={1}
+        >
           <PolicyPopover
             policy={
               Object {
@@ -38,8 +48,8 @@ exports[`ReportCard expect to render without error 1`] = `
               }
             }
           />
-        </Truncate>
-      </Text>
+        </GridItem>
+      </Grid>
       <Grid>
         <GridItem
           span={12}
