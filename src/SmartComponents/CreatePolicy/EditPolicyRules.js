@@ -3,6 +3,11 @@ import { propTypes as reduxFormPropTypes, formValueSelector, reduxForm } from 'r
 import { SystemRulesTable, ANSIBLE_ICON } from '@redhat-cloud-services/frontend-components-inventory-compliance';
 import { EmptyTable, Spinner } from '@redhat-cloud-services/frontend-components';
 import { sortable } from '@patternfly/react-table';
+import {
+    Text,
+    TextContent,
+    TextVariants
+} from '@patternfly/react-core';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -52,28 +57,38 @@ export const EditPolicyRules = ({ profileId, benchmarkId, selectedRuleRefIds, di
     if (loading) { return <EmptyTable><Spinner/></EmptyTable>; }
 
     return (
-        <SystemRulesTable
-            remediationsEnabled={false}
-            tailoringEnabled
-            selectedFilter
-            columns={columns}
-            loading={loading}
-            handleSelect={((selectedRuleRefIds) => {
-                dispatch({
-                    type: '@@redux-form/CHANGE',
-                    meta: {
-                        field: 'selectedRuleRefIds',
-                        form: 'policyForm'
-                    },
-                    payload: selectedRuleRefIds
-                });
-            })}
-            profileRules={ !loading && [{
-                profile: { refId: data.profile.refId, name: data.profile.name },
-                rules: data.benchmark.rules
-            }]}
-            selectedRefIds={ selectedRuleRefIds }
-        />
+        <React.Fragment>
+            <TextContent>
+                <Text component={TextVariants.h1}>
+                    Rules
+                </Text>
+                <Text component={TextVariants.h4}>
+                    Tailor your policy by including and excluding rules.
+                </Text>
+            </TextContent>
+            <SystemRulesTable
+                remediationsEnabled={false}
+                tailoringEnabled
+                selectedFilter
+                columns={columns}
+                loading={loading}
+                handleSelect={((selectedRuleRefIds) => {
+                    dispatch({
+                        type: '@@redux-form/CHANGE',
+                        meta: {
+                            field: 'selectedRuleRefIds',
+                            form: 'policyForm'
+                        },
+                        payload: selectedRuleRefIds
+                    });
+                })}
+                profileRules={ !loading && [{
+                    profile: { refId: data.profile.refId, name: data.profile.name },
+                    rules: data.benchmark.rules
+                }]}
+                selectedRefIds={ selectedRuleRefIds }
+            />
+        </React.Fragment>
     );
 };
 
