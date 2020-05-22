@@ -20,6 +20,7 @@
     "@redhat-cloud-services/frontend-components": "^1.0.25",
     "@redhat-cloud-services/frontend-components-inventory-compliance": "^1.0.11",
     "@redhat-cloud-services/frontend-components-notifications": "^1.0.4",
+    "@redhat-cloud-services/frontend-components-pdf-generator": "^1.0.15",
     "@redhat-cloud-services/frontend-components-remediations": "^1.0.4",
     "@redhat-cloud-services/frontend-components-utilities": "^1.0.4",
     "@redhat-cloud-services/host-inventory-client": "^1.0.63",

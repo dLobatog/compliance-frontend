@@ -16,6 +16,14 @@ import {
     ReportDetailsContentLoader, ReportDetailsDescription, StateViewWithError, StateViewPart
 } from 'PresentationalComponents';
 import { DeleteReport, SystemsTable } from 'SmartComponents';
+import {
+    Paragraph,
+    Section,
+    Chart
+} from '@redhat-cloud-services/frontend-components-pdf-generator';
+
+import { ExportIcon } from '@patternfly/react-icons';
+import { DownloadButton } from '@redhat-cloud-services/frontend-components-pdf-generator';
 
 import '@/Charts.scss';
 import './ReportDetails.scss';
@@ -122,7 +130,33 @@ export const ReportDetails = ({ match, history }) => {
                     <GridItem xl={8}>
                         <PageHeaderTitle title={profile.name + ' report'} />
                     </GridItem>
-                    <GridItem className='report-details-button' xl={4}>
+                    <GridItem xl={2}>
+                        <DownloadButton
+                            title={['Cloud Services for RHEL: Compliance',
+                                { title: 'Something bad', fontWeight: 700, style: { color: 'red' } }] }
+                            buttonProps={{ variant: 'link', icon: <ExportIcon className='iconOverride' />, component: 'a' }}
+                            pages={[<React.Fragment key="first-section">
+                                <Section title={'Description'}>
+                                    <Paragraph>
+                                        This is an executive summary of a compliance policy identified by Red Hat that may
+                                        impact your Red Hat Enterprise Linux (RHEL) servers.
+                                    </Paragraph>
+                                </Section>
+                                <Section title={'Systems summary'}>
+                                    <Chart
+                                        chartType='donut'
+                                        data={donutValues}
+                                        colorSchema='blue'
+                                        title={compliancePercentage}
+                                        subTitle="Compliant"
+                                    />
+                                </Section>
+                            </React.Fragment>]
+                            }
+                            fileName={`compliance_executive-report--${new Date().toISOString().split('T')}.pdf`}
+                        />
+                    </GridItem>
+                    <GridItem className='report-details-button' xl={2}>
                         <Button
                             isInline
                             variant="link"
