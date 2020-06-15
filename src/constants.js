@@ -44,3 +44,10 @@ export const COMPLIANT_SYSTEMS_FILTER_CONFIGURATION = [
         ]
     }
 ];
+
+export const policiesFilterConfiguration = (policies) => ([{
+    type: conditionalFilterType.checkbox,
+    label: 'Policies',
+    filterString: (value) => (`profile_id = ${value}`),
+    items: policies.map(policy => ({ label: policy.name, value: policy.id }))
+}]);

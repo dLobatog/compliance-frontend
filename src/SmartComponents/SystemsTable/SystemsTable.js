@@ -26,7 +26,7 @@ import { systemsWithRuleObjectsFailed } from 'Utilities/ruleHelpers';
 import { FilterConfigBuilder } from '@redhat-cloud-services/frontend-components-inventory-compliance';
 import { entitiesReducer } from 'Store/Reducers/SystemStore';
 import {
-    DEFAULT_SYSTEMS_FILTER_CONFIGURATION, COMPLIANT_SYSTEMS_FILTER_CONFIGURATION
+    DEFAULT_SYSTEMS_FILTER_CONFIGURATION, COMPLIANT_SYSTEMS_FILTER_CONFIGURATION, policiesFilterConfiguration
 } from '@/constants';
 import {
     ErrorPage,
@@ -94,7 +94,8 @@ class SystemsTable extends React.Component {
     inventory = React.createRef();
     filterConfig = new FilterConfigBuilder([
         ...DEFAULT_SYSTEMS_FILTER_CONFIGURATION,
-        ...(this.props.compliantFilter ? COMPLIANT_SYSTEMS_FILTER_CONFIGURATION : [])
+        ...(this.props.compliantFilter ? COMPLIANT_SYSTEMS_FILTER_CONFIGURATION : []),
+        ...(this.props.policiesFilter ? policiesFilterConfiguration(this.props.policies) : [])
     ]);
     chipBuilder = this.filterConfig.getChipBuilder();
     filterBuilder = this.filterConfig.getFilterBuilder();
@@ -280,6 +281,7 @@ class SystemsTable extends React.Component {
             ref: this.inventory,
             page,
             perPage,
+            filterConfig,
             exportConfig,
             tableProps: {
                 canSelectAll: false
@@ -291,6 +293,10 @@ class SystemsTable extends React.Component {
                 onSelect: this.onBulkSelect,
                 count: selectedEntities.length,
                 label: selectedEntities.length > 0 ? `${ selectedEntities.length } Selected` : undefined
+            },
+            activeFiltersConfig: {
+                filters: filterChips,
+                onDelete: this.onFilterDelete
             }
         };
 
@@ -318,11 +324,6 @@ class SystemsTable extends React.Component {
         if (!showAllSystems) {
             inventoryTableProps.total = total;
             inventoryTableProps.items = systems.map((edge) => edge.node.id);
-            inventoryTableProps.filterConfig = filterConfig;
-            inventoryTableProps.activeFiltersConfig = {
-                filters: filterChips,
-                onDelete: this.onFilterDelete
-            };
         }
 
         if (compact) {
@@ -386,8 +387,10 @@ SystemsTable.propTypes = {
     showOnlySystemsWithTestResults: propTypes.bool,
     showActions: propTypes.bool,
     compliantFilter: propTypes.bool,
+    policiesFilter: propTypes.bool,
     total: propTypes.number,
     clearInventoryFilter: propTypes.func,
+    policies: propTypes.array,
     systems: propTypes.array,
     updateRows: propTypes.func,
     updateSystems: propTypes.func,
@@ -408,8 +411,10 @@ SystemsTable.defaultProps = {
     showOnlySystemsWithTestResults: false,
     showActions: true,
     compliantFilter: false,
+    policiesFilter: false,
     selectedEntities: [],
     systems: [],
+    policies: [],
     clearAll: () => ({}),
     exportFromState: () => ({})
 };
